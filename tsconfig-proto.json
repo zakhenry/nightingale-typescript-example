@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "declaration": true
+  },
+  "include": [
+    "proto-dist/**/*.interface.ts",
+    "proto-dist/interfaces.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "healthcheck.proto";
+import "google/protobuf/empty.proto";
+
+package example;
+
+message SetServingStatusRequest {
+    grpc.health.v1.HealthCheckResponse.ServingStatus status = 1;
+}
+
+service ExampleService {
+    rpc SetServingStatus(SetServingStatusRequest) returns (google.protobuf.Empty);
+}

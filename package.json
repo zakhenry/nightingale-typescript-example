@@ -1,0 +1,42 @@
+{
+  "name": "nightingale-typescript-example",
+  "version": "1.0.0",
+  "description": "Example typescript gRPC service using the [nightingale gRPC health checker](https://github.com/zakhenry/nightingale), plus the integration tests for it",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "clean": "rm -rf proto-dist && mkdir -p proto-dist",
+    "build-js": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./proto-dist/ --grpc_out=./proto-dist/ --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --proto_path=./proto/ ./proto/*/*.proto ./proto/*.proto",
+    "build-ts": "grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./proto-dist/ --proto_path=./proto/ ./proto/*/*.proto ./proto/*.proto",
+    "build-ts-interfaces": "tsc --build tsconfig-proto.json && find proto-dist -type f -name '*.interface.ts' -delete && rm proto-dist/interfaces.ts",
+    "build-proto": "yarn build-js && yarn build-ts && yarn build-ts-interfaces",
+    "generate-proto": "yarn clean && yarn build-proto",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "watch": "onchange 'src/**/*' -i -- yarn build && yarn start",
+    "server:make:healthy": "node dist/client.js healthy",
+    "server:make:unhealthy": "node dist/client.js unhealthy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zakhenry/nightingale-typescript-example.git"
+  },
+  "author": "Zak Henry <zak.henry@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zakhenry/nightingale-typescript-example/issues"
+  },
+  "homepage": "https://github.com/zakhenry/nightingale-typescript-example#readme",
+  "devDependencies": {
+    "@zakhenry/grpc_tools_node_protoc_ts": "2.4.0",
+    "onchange": "6.1.0",
+    "typescript": "3.7.2"
+  },
+  "dependencies": {
+    "@types/google-protobuf": "3.7.1",
+    "google-protobuf": "3.9.1",
+    "grpc": "1.24.2",
+    "grpc-tools": "1.8.0",
+    "tslib": "1.10.0"
+  }
+}
